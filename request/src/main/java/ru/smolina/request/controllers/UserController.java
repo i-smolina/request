@@ -3,6 +3,7 @@ package ru.smolina.request.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,11 +20,9 @@ public class UserController {
 	private UserRepo userRepo;
 	
 	@GetMapping("/user")
-	public User getOne(@RequestParam Long id) {
-		User user = userRepo.findById(id).get();
-		System.out.println("hello");
-		System.out.println(user);
+	public User getOne(@AuthenticationPrincipal User user, @RequestParam Long id) {
 		return user;
 	}
-
+	
+	
 }
