@@ -33,7 +33,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.httpBasic()
 		.and()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/user").hasAuthority("USER")
+		.antMatchers(HttpMethod.GET, "/request/**").hasAuthority("USER")
+		.antMatchers(HttpMethod.POST, "/request/**").hasAuthority("USER")
+		.antMatchers(HttpMethod.PUT, "/request/**").hasAuthority("USER")
+		.antMatchers(HttpMethod.GET, "/admin").hasAuthority("ADMIN")
 		.and()
 		.csrf().disable();
 	}

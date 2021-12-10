@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import ru.smolina.request.domain.User;
 import ru.smolina.request.repos.UserRepo;
 
 
@@ -17,5 +18,9 @@ public class UserService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepo.findByUsername(username);
+	}
+	
+	public Iterable<User> findAll(){
+		return userRepo.findAll();
 	}
 }

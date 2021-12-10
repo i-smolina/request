@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role  implements GrantedAuthority{
-	USER;
+	USER, ADMIN, OPERATOR;
 
 	@Override
 	public String getAuthority() {
