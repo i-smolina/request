@@ -1,7 +1,5 @@
 package ru.smolina.request.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,14 +8,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import ru.smolina.request.domain.Role;
 import ru.smolina.request.servises.UserService;
 
 @Configuration
@@ -33,10 +28,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.httpBasic()
 		.and()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/request/**").hasAuthority("USER")
-		.antMatchers(HttpMethod.POST, "/request/**").hasAuthority("USER")
-		.antMatchers(HttpMethod.PUT, "/request/**").hasAuthority("USER")
-		.antMatchers(HttpMethod.GET, "/admin").hasAuthority("ADMIN")
+		.antMatchers(HttpMethod.GET, "/user/**").hasAuthority(Role.USER.name())
+		.antMatchers(HttpMethod.POST, "/user/**").hasAuthority(Role.USER.name())
+		.antMatchers(HttpMethod.PUT, "/user/**").hasAuthority(Role.USER.name())
+		.antMatchers(HttpMethod.PATCH, "/user/**").hasAuthority(Role.USER.name())
+		.antMatchers(HttpMethod.GET, "/operator/**").hasAuthority(Role.OPERATOR.name())
+		.antMatchers(HttpMethod.PATCH, "/operator/**").hasAuthority(Role.OPERATOR.name())
+		.antMatchers(HttpMethod.GET, "/admin/**").hasAuthority(Role.ADMIN.name())
+		.antMatchers(HttpMethod.PATCH, "/admin/**").hasAuthority(Role.ADMIN.name())
 		.and()
 		.csrf().disable();
 	}

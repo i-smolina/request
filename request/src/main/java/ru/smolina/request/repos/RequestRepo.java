@@ -5,13 +5,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import antlr.collections.List;
 import ru.smolina.request.domain.Request;
+import ru.smolina.request.domain.Status;
 import ru.smolina.request.domain.User;
 
 public interface RequestRepo extends JpaRepository<Request, Long>{
 	
 	public Iterable<Request> findByAuthor(User author);
 	public Request findByStatusLike(String status);
-	
-	
+	public Iterable<Request> findByStatusOrderByCreatdate(Status status);
 
 }

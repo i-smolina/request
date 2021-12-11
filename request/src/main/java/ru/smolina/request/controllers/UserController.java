@@ -1,6 +1,5 @@
 package ru.smolina.request.controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.smolina.request.domain.Request;
 import ru.smolina.request.domain.User;
 import ru.smolina.request.exceptions.AccessDeniedException;
+import ru.smolina.request.exceptions.InvalidRequestStatusException;
 import ru.smolina.request.servises.RequestService;
 
 @RestController
-@RequestMapping("/request")
+@RequestMapping("/user/request")
 public class UserController {
 	@Autowired
 	private RequestService requestService;
@@ -31,27 +31,25 @@ public class UserController {
 		return requestService.findByAuthor(user);
 	}
 
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public Request getOne(@AuthenticationPrincipal User user, @PathVariable("id") Request request)
 			throws AccessDeniedException {
-		if (user.getUser_id() != request.getAuthor().getUser_id())
-			throw new AccessDeniedException("Ошибка доступа : Нельзя просматривать чужие заявки!");
-		return request;
+		return requestService.readRequest(user, request);
 	}
 
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	Request create(@AuthenticationPrincipal User user, @Validated @RequestBody Request request) {
-		return requestService.saveNewRequest(user, request);
+		return requestService.createRequest(user, request);
 	}
 
 	@PutMapping("{id}")
-	public Request update(@AuthenticationPrincipal User user, @PathVariable("id") Request requestFromDb, @RequestBody Request request) throws AccessDeniedException {
+	public Request update(@AuthenticationPrincipal User user, @PathVariable("id") Request requestFromDb, @RequestBody Request request) throws AccessDeniedException, InvalidRequestStatusException {
 		return requestService.updateRequest(user, requestFromDb, request);
 	}
 
-	@PatchMapping("/sent/{id}")
-	public Request sent(@PathVariable("id") Request requestFromDb, @RequestBody Request request) {
-		return requestService.sent(requestFromDb, request);
+	@PatchMapping("/send/{id}")
+	public Request sent(@AuthenticationPrincipal User user, @PathVariable("id") Request request) throws InvalidRequestStatusException {
+		return requestService.send(user, request);
 	}
 }

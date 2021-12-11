@@ -6,4 +6,6 @@ import ru.smolina.request.domain.User;
 
 public interface UserRepo extends CrudRepository<User, Long>{
 	public User findByUsername(String username);
+	
+
 }

@@ -1,5 +1,7 @@
 package ru.smolina.request.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,8 +21,8 @@ public class Request {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long request_id;
-
 	private String text;
+	private LocalDateTime creatdate;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -61,7 +63,13 @@ public class Request {
 		this.author = author;
 	}
 
+	public LocalDateTime getCreatdate() {
+		return creatdate;
+	}
+
+	public void setCreatdate(LocalDateTime creatdate) {
+		this.creatdate = creatdate;
+	}
 
 	
-
 }
