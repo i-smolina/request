@@ -1,0 +1,13 @@
+CREATE DATABASE db_request; -- Creates the new database
+CREATE USER springuser WITH PASSWORD 'ThePassword'; -- Creates the user
+GRANT ALL PRIVILEGES ON DATABASE db_request TO springuser; -- Gives all privileges to the new user on the newly created database
+
+CREATE TABLE usr (user_id bigserial PRIMARY KEY, username varchar(20) NOT NULL, password varchar(20) NOT NULL, active boolean);
+INSERT INTO usr (username, password, active) VALUES ('user1', 'pass1', true);
+INSERT INTO usr (username, password, active) VALUES ('user2', 'pass2', true);
+INSERT INTO usr (username, password, active) VALUES ('user3', 'pass3', true);
+
+
+
+
+
